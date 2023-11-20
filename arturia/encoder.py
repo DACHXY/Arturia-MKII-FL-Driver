@@ -89,5 +89,19 @@ class DeviceInputControls:
         if incremental:
             self.check_and_show_hint()
     
-    def check_and_show_hint():
-        print()
+    def display_hint(self, hint_title: str, hint_value: str, fl_hint=False):
+        if config.HINT_DISPLAY_ALL_CAPS:
+            hint_title = hint_title.upper()
+            hint_value = hint_value.upper()
+            
+        hint_title = DeviceDisplay.abbreviate(hint_title)
+    
+    def check_and_show_hint(self):
+        hint = ui.getHintMsg()
+        if not hint: return False
+        
+        lines = hint.split(':', 1)
+        if len(lines) == 1: lines.append(' ')
+        
+        self.display_hint(lines[0], lines[1][:16])
+        return True
